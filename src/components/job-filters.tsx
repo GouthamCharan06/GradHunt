@@ -101,7 +101,6 @@ export function JobFilters({
     filters.role !== "all" ||
     filters.company !== "all" ||
     filters.source !== "all" ||
-    filters.jobType !== "all" ||
     filters.isFresherOnly ||
     (filters.maxAgeDays !== undefined && filters.maxAgeDays !== 90);
 
@@ -111,8 +110,6 @@ export function JobFilters({
   const companies = availableFilters?.companies ?? [];
   // Real work modes present in the dataset
   const workModes = availableFilters?.workModes ?? ["on-site", "hybrid", "remote"];
-  // Real job types present in the dataset
-  const jobTypes = availableFilters?.jobTypes ?? ["full-time", "internship", "contract"];
   // Real sources
   const sources = availableFilters?.sources ?? [
     "greenhouse",
@@ -155,8 +152,8 @@ export function JobFilters({
         )}
       </div>
 
-      {/* Discrete Filter Controls: City, Role, Company, Work mode, Job type, Source */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 pt-1">
+      {/* Discrete Filter Controls: City, Role, Company, Work mode, Source */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 pt-1">
         {/* 1. City Control (Derived from real Indian dataset) */}
         <div className="flex flex-col gap-1">
           <label className="text-[11px] font-medium text-zinc-400">City</label>
@@ -237,26 +234,7 @@ export function JobFilters({
           </select>
         </div>
 
-        {/* 5. Job Type Control */}
-        <div className="flex flex-col gap-1">
-          <label className="text-[11px] font-medium text-zinc-400">Job type</label>
-          <select
-            value={filters.jobType}
-            onChange={(e) =>
-              onFilterChange({ ...filters, jobType: e.target.value })
-            }
-            className="h-9 w-full rounded-md border border-zinc-800 bg-zinc-900/90 px-2.5 text-xs text-zinc-200 hover:border-zinc-700 focus:outline-none focus:ring-1 focus:ring-zinc-400"
-            aria-label="Filter by job type"
-          >
-            <option value="all">All Job Types</option>
-            <option value="internship">Internship</option>
-            <option value="full-time">Full-time</option>
-            <option value="contract">Contract</option>
-            <option value="part-time">Part-time</option>
-          </select>
-        </div>
-
-        {/* 6. Source Provider Control */}
+        {/* 5. Source Provider Control */}
         <div className="flex flex-col gap-1">
           <label className="text-[11px] font-medium text-zinc-400">Source</label>
           <select

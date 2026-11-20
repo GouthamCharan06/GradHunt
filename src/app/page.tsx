@@ -242,7 +242,6 @@ export default function Home() {
     filters.role !== "all" ||
     filters.company !== "all" ||
     filters.source !== "all" ||
-    filters.jobType !== "all" ||
     filters.isFresherOnly ||
     (filters.maxAgeDays !== undefined && filters.maxAgeDays !== 90);
 

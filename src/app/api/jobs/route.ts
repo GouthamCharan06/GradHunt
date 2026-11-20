@@ -163,9 +163,9 @@ export async function GET(request: NextRequest) {
         }
       }
 
-      // 8. Job Type filter
+      // 8. Job Type filter (case-insensitive)
       if (jobType && jobType !== "all") {
-        if (job.jobType !== jobType) {
+        if ((job.jobType || "").toLowerCase() !== jobType.toLowerCase()) {
           return false;
         }
       }
