@@ -50,19 +50,22 @@ export function RefreshStatusBar({
     }
   }, [lastRefreshedAt]);
 
-  // Calculate next 6-hour refresh estimate
+  // Calculate next 24-hour autonomous refresh estimate
   const nextRefreshText = React.useMemo(() => {
-    if (!lastRefreshedAt) return "Next in ~6h";
+    if (!lastRefreshedAt) return "Next in ~24h";
     try {
       const lastTime = new Date(lastRefreshedAt).getTime();
-      const nextTime = lastTime + 6 * 60 * 60 * 1000;
+      const nextTime = lastTime + 24 * 60 * 60 * 1000;
       const diffMs = nextTime - Date.now();
       if (diffMs <= 0) return "Next refresh due";
       const hours = Math.floor(diffMs / (1000 * 60 * 60));
       const mins = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-      return `Next in ~${hours}h ${mins}m`;
+      if (hours > 0) {
+        return `Next in ~${hours}h ${mins}m`;
+      }
+      return `Next in ~${mins}m`;
     } catch {
-      return "Next in ~6h";
+      return "Daily refresh scheduled";
     }
   }, [lastRefreshedAt]);
 

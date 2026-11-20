@@ -46,14 +46,14 @@ flowchart TD
     Policy --> API
     API --> UI
 
-    Cron["Vercel Cron (0 */6 * * *)"] -.->|Trigger Ingestion| Fetch
+    AutoSync["Autonomous 24h Trigger & Manual Dashboard Refresh"] -.->|Background Ingestion| Fetch
 ```
 
 ---
 
 ## Sequential Execution Flow (Start to Finish)
 
-When a refresh occurs (triggered on a 6-hour Vercel cron, on manual request, or in the background when the store is empty), the pipeline executes the following stages sequentially:
+When a refresh occurs (triggered automatically every 24 hours on client query, on manual user request via the dashboard, or in the background when the store is empty), the pipeline executes the following stages sequentially:
 
 1. **Multi-Source Ingestion**: The system queries public, unauthenticated job feeds across Greenhouse, Lever, Ashby, SmartRecruiters, Recruitee, and Pinpoint for configured tech employers, fetching over 13,000 raw listings in parallel with per-provider failure isolation and timeouts.
 2. **Canonical Normalization**: Raw API payloads are converted into a uniform `Job` data model, preserving original source identifiers, company names, direct ATS application URLs, and timestamps.
@@ -104,7 +104,7 @@ When a refresh occurs (triggered on a 6-hour Vercel cron, on manual request, or 
 - **Styling**: Tailwind CSS v4, Lucide React, Base UI
 - **LLM Engine**: Google Gemini API (`gemini-3.5-flash-lite`) via Google AI Studio
 - **Data Validation**: Zod runtime schema validation
-- **Scheduling**: Vercel Cron (`0 */6 * * *`)
+- **Data Synchronization**: Autonomous 24-hour self-refreshing API check + manual instant dashboard trigger
 
 ---
 
@@ -157,4 +157,4 @@ npm start
    ```
 2. Import the repository in [Vercel](https://vercel.com).
 3. Set the `GEMINI_API_KEY` environment variable in the Vercel dashboard.
-4. Deploy. The schedule in `vercel.json` (`0 */6 * * *`) automatically triggers periodic data refreshes every 6 hours.
+4. Deploy. GradHunt operates self-sufficiently without requiring Vercel Cron: whenever the jobs API is accessed after 24 hours from the last sync, it initiates an automatic non-blocking background refresh, and users can trigger manual refreshes directly from the UI anytime.

@@ -38,7 +38,7 @@ export interface RefreshExecutionResult {
 }
 
 export async function executeFullRefresh(
-  trigger: "manual" | "cron" | "startup" = "manual",
+  trigger: "manual" | "cron" | "startup" | "interval_24h" = "manual",
   options: { clearCache?: boolean } = {}
 ): Promise<RefreshExecutionResult> {
   // If a refresh is already in-flight, return the shared promise so we don't race
@@ -243,7 +243,7 @@ export async function executeFullRefresh(
   return inFlightRefreshPromise;
 }
 
-export function triggerBackgroundRefresh(trigger: "manual" | "cron" | "startup" = "startup"): void {
+export function triggerBackgroundRefresh(trigger: "manual" | "cron" | "startup" | "interval_24h" = "startup"): void {
   if (inFlightRefreshPromise) return;
   // Fire and forget
   executeFullRefresh(trigger).catch((err) => {

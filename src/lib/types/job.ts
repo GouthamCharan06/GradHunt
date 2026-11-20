@@ -275,7 +275,7 @@ export interface RefreshRunRecord {
   finishedAt: string | null;
   durationMs: number;
   status: "running" | "completed" | "failed";
-  trigger: "manual" | "cron" | "startup";
+  trigger: "manual" | "cron" | "startup" | "interval_24h";
   providerResults: Record<JobSource, ProviderResult>;
   counts: {
     rawFetched: number;

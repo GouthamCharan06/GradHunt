@@ -22,10 +22,19 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const storeStatus = getStoreStatus();
 
-    // If store is completely empty and no refresh is in progress, trigger non-blocking background sync
-    if (storeStatus.count === 0 && !storeStatus.isRefreshing) {
-      console.log("[/api/jobs] Store empty — triggering non-blocking background sync");
-      triggerBackgroundRefresh("startup");
+    // Autonomous 24-hour self-refresh:
+    // If the database is empty or the last successful refresh was more than 24 hours ago,
+    // trigger a non-blocking background refresh automatically without depending on Vercel cron.
+    const TWENTY_FOUR_HOURS_MS = 24 * 60 * 60 * 1000;
+    const isPast24Hours = Boolean(
+      storeStatus.lastRefreshedAt &&
+      Date.now() - new Date(storeStatus.lastRefreshedAt).getTime() > TWENTY_FOUR_HOURS_MS
+    );
+
+    if ((storeStatus.count === 0 || isPast24Hours) && !storeStatus.isRefreshing) {
+      const triggerReason = storeStatus.count === 0 ? "startup" : "interval_24h";
+      console.log(`[/api/jobs] Autonomous refresh triggered (reason: ${triggerReason})`);
+      triggerBackgroundRefresh(triggerReason);
     }
 
     const query = searchParams.get("q")?.trim().toLowerCase() ?? "";

@@ -2,7 +2,7 @@
  * GradHunt — /api/refresh
  *
  * Handles:
- * 1. 6-Hour Vercel Cron triggers: GET /api/refresh (schedule: 0 every 6 hours)
+ * 1. Daily Vercel Cron triggers: GET /api/refresh (schedule: 0 0 * * * daily)
  * 2. Manual dashboard refresh triggers: POST /api/refresh
  * 3. Status checks: GET /api/refresh?status=true
  *
@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
 }
 
 /**
- * GET handler: supports Vercel Cron 6-hour schedule
+ * GET handler: supports Vercel Cron daily schedule (0 0 * * *)
  * and query param inspection.
  */
 export async function GET(request: NextRequest) {
