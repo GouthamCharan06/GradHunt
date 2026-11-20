@@ -103,8 +103,10 @@ export function computeSearchRelevance(job: Job, rawQuery: string): number {
 /**
  * Filters and ranks jobs by relevance to query.
  * Irrelevant jobs (score <= 0) are excluded.
+ * Default ranking: Strict latest application to oldest (newest first),
+ * with search relevance score as tie-breaker.
  */
-export function searchAndRankJobs(jobs: Job[], query: string): Job[] {
+export function searchAndRankJobs(jobs: Job[], query: string, sortByDate: boolean = true): Job[] {
   if (!query || query.trim().length === 0) {
     return jobs;
   }
@@ -118,12 +120,22 @@ export function searchAndRankJobs(jobs: Job[], query: string): Job[] {
     }
   }
 
-  // Rank by score descending, then by publication date descending
+  // Rank by latest application first (or score if explicitly requested)
   scored.sort((a, b) => {
+    if (sortByDate) {
+      const timeA = new Date(a.job.postedAt || a.job.publishedAt).getTime();
+      const timeB = new Date(b.job.postedAt || b.job.publishedAt).getTime();
+      if (!isNaN(timeA) && !isNaN(timeB) && timeB !== timeA) {
+        return timeB - timeA; // Latest date first
+      }
+      return b.score - a.score;
+    }
     if (b.score !== a.score) {
       return b.score - a.score;
     }
-    return new Date(b.job.publishedAt).getTime() - new Date(a.job.publishedAt).getTime();
+    const timeA = new Date(a.job.postedAt || a.job.publishedAt).getTime();
+    const timeB = new Date(b.job.postedAt || b.job.publishedAt).getTime();
+    return timeB - timeA;
   });
 
   return scored.map((s) => s.job);

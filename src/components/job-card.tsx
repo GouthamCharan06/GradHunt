@@ -62,7 +62,7 @@ function formatWorkModeLabel(workMode: Job["workMode"]): string {
 }
 
 export function JobCard({ job, isApplied, onApply, onUnapply }: JobCardProps) {
-  const relativeTime = formatRelativeTime(job.publishedAt);
+  const relativeTime = formatRelativeTime(job.postedAt || job.publishedAt);
   const sourceLabel = getSourceLabel(job.source);
   const workModeLabel = formatWorkModeLabel(job.workMode);
   const displayLocation = job.rawLocation || `${job.city}, India`;
@@ -92,10 +92,10 @@ export function JobCard({ job, isApplied, onApply, onUnapply }: JobCardProps) {
               {displayLocation}
             </span>
 
-            <span className="text-zinc-600 hidden sm:inline">•</span>
+            <span className="text-zinc-600">•</span>
 
-            <span className="text-zinc-500 hidden sm:inline flex items-center gap-1">
-              <Clock className="size-3 text-zinc-600 shrink-0" />
+            <span className="text-zinc-400 inline-flex items-center gap-1 font-medium">
+              <Clock className="size-3 text-zinc-500 shrink-0" />
               {relativeTime}
             </span>
 

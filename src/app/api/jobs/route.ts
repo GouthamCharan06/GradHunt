@@ -178,25 +178,30 @@ export async function GET(request: NextRequest) {
       return true;
     });
 
-    // Search relevance ranking
+    // Search filtering & ranking (default to latest date first)
     if (query) {
-      filtered = searchAndRankJobs(filtered, query);
+      filtered = searchAndRankJobs(filtered, query, sort === "recent");
+    }
+
+    if (sort === "company") {
+      filtered.sort((a, b) => a.company.localeCompare(b.company));
+    } else if (sort === "relevance" && !query) {
+      filtered.sort((a, b) => (b.relevanceScore ?? 0) - (a.relevanceScore ?? 0));
     } else {
-      if (sort === "company") {
-        filtered.sort((a, b) => a.company.localeCompare(b.company));
-      } else if (sort === "relevance") {
-        filtered.sort((a, b) => (b.relevanceScore ?? 0) - (a.relevanceScore ?? 0));
-      } else {
-        // Default: Newest first by verified source date
-        filtered.sort((a, b) => {
-          const timeA = new Date(a.postedAt || a.publishedAt).getTime();
-          const timeB = new Date(b.postedAt || b.publishedAt).getTime();
-          if (isNaN(timeA) && isNaN(timeB)) return 0;
-          if (isNaN(timeA)) return 1;
-          if (isNaN(timeB)) return -1;
-          return timeB - timeA;
-        });
-      }
+      // Default & Primary: Strict latest application to oldest (newest first)
+      filtered.sort((a, b) => {
+        const timeA = new Date(a.postedAt || a.publishedAt).getTime();
+        const timeB = new Date(b.postedAt || b.publishedAt).getTime();
+        if (isNaN(timeA) && isNaN(timeB)) return 0;
+        if (isNaN(timeA)) return 1;
+        if (isNaN(timeB)) return -1;
+        if (timeB !== timeA) return timeB - timeA;
+        // Deterministic tie-breaker
+        const fetchA = new Date(a.fetchedAt).getTime();
+        const fetchB = new Date(b.fetchedAt).getTime();
+        if (!isNaN(fetchA) && !isNaN(fetchB) && fetchB !== fetchA) return fetchB - fetchA;
+        return a.id.localeCompare(b.id);
+      });
     }
 
     const total = filtered.length;

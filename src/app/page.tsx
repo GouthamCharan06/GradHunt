@@ -359,9 +359,10 @@ export default function Home() {
             <select
               id="sort-select"
               value={filters.sort}
-              onChange={(e) =>
-                setFilters({ ...filters, sort: e.target.value })
-              }
+              onChange={(e) => {
+                setFilters({ ...filters, sort: e.target.value });
+                setPage(1);
+              }}
               className="h-7 rounded border border-zinc-800 bg-zinc-900/60 px-2 text-xs text-zinc-300 hover:border-zinc-700 focus:outline-none focus:ring-1 focus:ring-zinc-400"
             >
               <option value="recent">Most recent</option>
