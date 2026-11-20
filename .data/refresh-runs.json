@@ -1,5 +1,251 @@
 [
   {
+    "id": "ref_1795179928440",
+    "startedAt": "2026-11-20T13:05:28.440Z",
+    "finishedAt": "2026-11-20T13:06:05.436Z",
+    "durationMs": 36996,
+    "status": "completed",
+    "trigger": "manual",
+    "providerResults": {
+      "greenhouse": {
+        "source": "greenhouse",
+        "status": "success",
+        "fetchedCount": 10481,
+        "durationMs": 21867
+      },
+      "lever": {
+        "source": "lever",
+        "status": "success",
+        "fetchedCount": 229,
+        "durationMs": 26403,
+        "error": "Company \"palantir\": Request timed out"
+      },
+      "ashby": {
+        "source": "ashby",
+        "status": "success",
+        "fetchedCount": 1838,
+        "durationMs": 2577,
+        "error": "Company \"sarvam-ai\": HTTP 404 Not Found"
+      },
+      "smartrecruiters": {
+        "source": "smartrecruiters",
+        "status": "success",
+        "fetchedCount": 465,
+        "durationMs": 5120
+      },
+      "recruitee": {
+        "source": "recruitee",
+        "status": "success",
+        "fetchedCount": 90,
+        "durationMs": 1758,
+        "error": "Recruitee \"tacnique\": HTTP 404 Not Found"
+      },
+      "pinpoint": {
+        "source": "pinpoint",
+        "status": "success",
+        "fetchedCount": 111,
+        "durationMs": 4387,
+        "error": "Pinpoint \"pinpoint\": HTTP 404 Not Found"
+      }
+    },
+    "counts": {
+      "rawFetched": 13214,
+      "normalized": 13213,
+      "indiaEligible": 1207,
+      "hardRejected": 1037,
+      "duplicatesRemoved": 6,
+      "newlyAdded": 1,
+      "updated": 0,
+      "retainedUnchanged": 229,
+      "removedUnavailable": 0,
+      "staleHidden": 0,
+      "totalActive": 229
+    },
+    "llm": {
+      "candidates": 204,
+      "invoked": 17,
+      "succeeded": 17,
+      "failed": 0,
+      "cached": 187,
+      "inputTokens": 6735,
+      "outputTokens": 3547,
+      "estimatedCostUsd": 0.0015692249999999998
+    },
+    "freshnessDistribution": {
+      "0-7d": 55,
+      "8-30d": 74,
+      "31-60d": 49,
+      "61-90d": 26,
+      "90d+": 25,
+      "oldestPostingDate": "2025-08-08T12:04:26.714Z",
+      "newestPostingDate": "2026-11-20T12:21:01.000Z"
+    }
+  },
+  {
+    "id": "ref_1795179569347",
+    "startedAt": "2026-11-20T12:59:29.347Z",
+    "finishedAt": "2026-11-20T13:03:07.609Z",
+    "durationMs": 218262,
+    "status": "completed",
+    "trigger": "manual",
+    "providerResults": {
+      "greenhouse": {
+        "source": "greenhouse",
+        "status": "success",
+        "fetchedCount": 10482,
+        "durationMs": 29598
+      },
+      "lever": {
+        "source": "lever",
+        "status": "success",
+        "fetchedCount": 764,
+        "durationMs": 18085,
+        "error": "Company \"palantir\": Request timed out"
+      },
+      "ashby": {
+        "source": "ashby",
+        "status": "success",
+        "fetchedCount": 1838,
+        "durationMs": 4806,
+        "error": "Company \"sarvam-ai\": HTTP 404 Not Found"
+      },
+      "smartrecruiters": {
+        "source": "smartrecruiters",
+        "status": "success",
+        "fetchedCount": 465,
+        "durationMs": 5144
+      },
+      "recruitee": {
+        "source": "recruitee",
+        "status": "success",
+        "fetchedCount": 90,
+        "durationMs": 2583,
+        "error": "Recruitee \"tacnique\": HTTP 404 Not Found"
+      },
+      "pinpoint": {
+        "source": "pinpoint",
+        "status": "success",
+        "fetchedCount": 111,
+        "durationMs": 5876,
+        "error": "Pinpoint \"pinpoint\": HTTP 404 Not Found"
+      }
+    },
+    "counts": {
+      "rawFetched": 13750,
+      "normalized": 13749,
+      "indiaEligible": 1404,
+      "hardRejected": 1200,
+      "duplicatesRemoved": 6,
+      "newlyAdded": 6,
+      "updated": 0,
+      "retainedUnchanged": 224,
+      "removedUnavailable": 0,
+      "staleHidden": 0,
+      "totalActive": 229
+    },
+    "llm": {
+      "candidates": 251,
+      "invoked": 198,
+      "succeeded": 198,
+      "failed": 25,
+      "cached": 0,
+      "inputTokens": 71765,
+      "outputTokens": 41846,
+      "estimatedCostUsd": 0.017936175
+    },
+    "freshnessDistribution": {
+      "0-7d": 55,
+      "8-30d": 74,
+      "31-60d": 49,
+      "61-90d": 26,
+      "90d+": 25,
+      "oldestPostingDate": "2025-08-08T12:04:26.714Z",
+      "newestPostingDate": "2026-11-20T12:21:01.000Z"
+    }
+  },
+  {
+    "id": "ref_1795179044207",
+    "startedAt": "2026-11-20T12:50:44.207Z",
+    "finishedAt": "2026-11-20T12:53:32.833Z",
+    "durationMs": 168626,
+    "status": "completed",
+    "trigger": "manual",
+    "providerResults": {
+      "greenhouse": {
+        "source": "greenhouse",
+        "status": "success",
+        "fetchedCount": 10482,
+        "durationMs": 20827
+      },
+      "lever": {
+        "source": "lever",
+        "status": "success",
+        "fetchedCount": 476,
+        "durationMs": 21214,
+        "error": "Company \"spotify\": Request timed out"
+      },
+      "ashby": {
+        "source": "ashby",
+        "status": "success",
+        "fetchedCount": 1838,
+        "durationMs": 3648,
+        "error": "Company \"sarvam-ai\": HTTP 404 Not Found"
+      },
+      "smartrecruiters": {
+        "source": "smartrecruiters",
+        "status": "success",
+        "fetchedCount": 465,
+        "durationMs": 4827
+      },
+      "recruitee": {
+        "source": "recruitee",
+        "status": "success",
+        "fetchedCount": 90,
+        "durationMs": 3002,
+        "error": "Recruitee \"tacnique\": HTTP 404 Not Found"
+      },
+      "pinpoint": {
+        "source": "pinpoint",
+        "status": "success",
+        "fetchedCount": 111,
+        "durationMs": 6838,
+        "error": "Pinpoint \"pinpoint\": HTTP 404 Not Found"
+      }
+    },
+    "counts": {
+      "rawFetched": 13462,
+      "normalized": 13461,
+      "indiaEligible": 1409,
+      "hardRejected": 1195,
+      "duplicatesRemoved": 6,
+      "newlyAdded": 24,
+      "updated": 0,
+      "retainedUnchanged": 201,
+      "removedUnavailable": 0,
+      "staleHidden": 0,
+      "totalActive": 224
+    },
+    "llm": {
+      "candidates": 252,
+      "invoked": 192,
+      "succeeded": 192,
+      "failed": 60,
+      "cached": 0,
+      "inputTokens": 69029,
+      "outputTokens": 40953,
+      "estimatedCostUsd": 0.017463075
+    },
+    "freshnessDistribution": {
+      "0-7d": 54,
+      "8-30d": 72,
+      "31-60d": 48,
+      "61-90d": 26,
+      "90d+": 24,
+      "oldestPostingDate": "2025-08-08T12:04:26.714Z",
+      "newestPostingDate": "2026-11-20T12:21:01.000Z"
+    }
+  },
+  {
     "id": "ref_1795171624046",
     "startedAt": "2026-11-20T10:47:04.046Z",
     "finishedAt": "2026-11-20T10:47:52.718Z",

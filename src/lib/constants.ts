@@ -22,8 +22,8 @@ export const FRESHNESS_WINDOW_HOURS = parseInt(process.env.FRESHNESS_WINDOW_HOUR
 /** How often the cron job runs (in minutes) — 6 hours. */
 export const REFRESH_INTERVAL_MINUTES = 360;
 
-/** Request timeout for source adapters (in milliseconds). */
-export const SOURCE_FETCH_TIMEOUT_MS = 30_000;
+/** Request timeout for source adapters (in milliseconds) — capped at 15s for fast response. */
+export const SOURCE_FETCH_TIMEOUT_MS = 15_000;
 
 /** Maximum number of retries for source fetch failures. */
 export const SOURCE_FETCH_MAX_RETRIES = 2;

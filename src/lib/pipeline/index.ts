@@ -160,7 +160,8 @@ export interface Phase3Diagnostics {
 
 export async function runPhase3Pipeline(
   sourceResult: AllSourcesResult,
-  now: Date = new Date()
+  now: Date = new Date(),
+  onProgress?: (progressText: string) => void
 ): Promise<Phase3PipelineResult> {
   const startTime = Date.now();
   const fetchedAt = now.toISOString();
@@ -256,7 +257,7 @@ export async function runPhase3Pipeline(
   // ── Stage 6: LLM Semantic Tagging Layer ─────────────────────────────
   // Gemini semantically analyzes every candidate job, normalizes roles,
   // determines true fresher relevance, extracts skills, and scores relevance.
-  const classificationResult = await classifyJobsBatch(dedupResult.deduplicated);
+  const classificationResult = await classifyJobsBatch(dedupResult.deduplicated, 5, onProgress);
 
   // Filter to jobs verified as fresher-relevant or internships
   const finalEligibleJobs = classificationResult.classifiedJobs.filter((j) => j.isFresherEligible);

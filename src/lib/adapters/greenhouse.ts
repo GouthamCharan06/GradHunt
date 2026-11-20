@@ -30,7 +30,7 @@ async function fetchBoard(
 ): Promise<{ jobs: GreenhouseRawJob[]; error?: SourceError }> {
   const url = `${BASE_URL}/${slug}/jobs?content=true`;
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 35_000);
+  const timeoutId = setTimeout(() => controller.abort(), SOURCE_FETCH_TIMEOUT_MS);
 
   try {
     const response = await fetch(url, {

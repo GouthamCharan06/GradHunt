@@ -40,7 +40,7 @@ async function fetchCompany(
 ): Promise<{ jobs: AshbyRawJob[]; error?: SourceError }> {
   const url = `${BASE_URL}/${slug}`;
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 35_000);
+  const timeoutId = setTimeout(() => controller.abort(), SOURCE_FETCH_TIMEOUT_MS);
 
   try {
     const response = await fetch(url, {

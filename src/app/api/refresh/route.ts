@@ -13,6 +13,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { executeFullRefresh, triggerBackgroundRefresh } from "@/lib/pipeline/orchestrator";
 import { getStoreStatus, getLatestRefreshRun, getRecentRefreshRuns } from "@/lib/store";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const maxDuration = 60;
+
 export async function POST(request: NextRequest) {
   const startTime = Date.now();
   const searchParams = request.nextUrl.searchParams;
@@ -25,6 +29,8 @@ export async function POST(request: NextRequest) {
       storeStatus,
       latestRun: getLatestRefreshRun(),
       recentRuns: getRecentRefreshRuns(),
+    }, {
+      headers: { "Cache-Control": "no-store, no-cache, must-revalidate" },
     });
   }
 
@@ -89,6 +95,8 @@ export async function GET(request: NextRequest) {
       storeStatus,
       latestRun: getLatestRefreshRun(),
       recentRuns: getRecentRefreshRuns(),
+    }, {
+      headers: { "Cache-Control": "no-store, no-cache, must-revalidate" },
     });
   }
 

@@ -66,7 +66,9 @@ export async function executeFullRefresh(
       setStoreRefreshing(true, "Filtering India roles & running candidate checks...");
 
       // ── Stages 1-6: Normalize → India filter → Candidate filter → Dedup → Gemini batch classification
-      const pipeline: Phase3PipelineResult = await runPhase3Pipeline(sourceResult);
+      const pipeline: Phase3PipelineResult = await runPhase3Pipeline(sourceResult, new Date(), (progressMsg) => {
+        setStoreRefreshing(true, progressMsg);
+      });
 
       setStoreRefreshing(true, "Persisting active opportunities...");
 

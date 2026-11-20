@@ -135,7 +135,7 @@ export default function Home() {
         params.set("onlyIds", appliedIds.join(","));
       }
 
-      const res = await fetch(`/api/jobs?${params.toString()}`);
+      const res = await fetch(`/api/jobs?${params.toString()}`, { cache: "no-store" });
       if (!res.ok) {
         throw new Error(`Server responded with HTTP ${res.status}`);
       }
@@ -170,13 +170,37 @@ export default function Home() {
     fetchJobs();
   }, [fetchJobs]);
 
-  // Periodic poll if background refresh is active
+  // Periodic lightweight status polling when background refresh is active
   useEffect(() => {
     if (!isRefreshing) return;
-    const interval = setInterval(() => {
+    const interval = setInterval(async () => {
+      try {
+        const res = await fetch(`/api/refresh?status=true&_t=${Date.now()}`, { cache: "no-store" });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.storeStatus) {
+            setRefreshProgress(data.storeStatus.refreshProgress ?? null);
+            if (!data.storeStatus.isRefreshing) {
+              setIsRefreshing(false);
+              fetchJobs();
+            }
+          }
+        }
+      } catch (err) {
+        console.warn("Status poll error:", err);
+      }
+    }, 2500);
+
+    // Safety timeout: automatically reset refreshing flag after 90s if backend completed silently
+    const safetyTimeout = setTimeout(() => {
+      setIsRefreshing(false);
       fetchJobs();
-    }, 4000);
-    return () => clearInterval(interval);
+    }, 90_000);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(safetyTimeout);
+    };
   }, [isRefreshing, fetchJobs]);
 
   // Manual refresh trigger
@@ -186,13 +210,12 @@ export default function Home() {
     setRefreshProgress("Starting 6-provider synchronization & Gemini AI classification...");
     try {
       // Trigger refresh in background so client never blocks on slow calls
-      await fetch("/api/refresh?async=true", { method: "POST" });
-      await fetchJobs();
+      await fetch("/api/refresh?async=true", { method: "POST", cache: "no-store" });
     } catch (err) {
       console.error("Refresh error:", err);
       setIsRefreshing(false);
     }
-  }, [isRefreshing, fetchJobs]);
+  }, [isRefreshing]);
 
   const handleFilterChange = (newFilters: FilterState) => {
     setFilters(newFilters);

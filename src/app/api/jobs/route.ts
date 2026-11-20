@@ -17,6 +17,10 @@ import { Job, WorkMode } from "@/lib/types/job";
 import { searchAndRankJobs } from "@/lib/pipeline/search";
 import { DEFAULT_ACTIVE_FEED_MAX_AGE_DAYS } from "@/lib/constants";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const maxDuration = 60;
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
@@ -222,6 +226,12 @@ export async function GET(request: NextRequest) {
       refreshProgress: storeStatus.refreshProgress,
       latestRefreshRecord: getLatestRefreshRun(),
       freshnessDistribution: storeStatus.freshnessDistribution,
+    }, {
+      headers: {
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+        "Pragma": "no-cache",
+        "Expires": "0",
+      },
     });
   } catch (error) {
     console.error("[/api/jobs] Critical error:", error);

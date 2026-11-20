@@ -36,7 +36,7 @@ async function fetchCompany(
   const maxPages = 10; // Up to 1,000 jobs per company
 
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 35_000);
+  const timeoutId = setTimeout(() => controller.abort(), SOURCE_FETCH_TIMEOUT_MS);
 
   try {
     while (hasMore && pageCount < maxPages) {
